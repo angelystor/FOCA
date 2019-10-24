@@ -37,7 +37,28 @@ namespace FOCA.Database.Controllers
         {
             using (FocaContextDb context = new FocaContextDb())
             {
-                return context.Projects.ToList(); ;
+                return context.Projects.ToList();
+            }
+        }
+
+        public void DeleteProjectById(int idProject)
+        {
+            try
+            {
+                using (FocaContextDb context = new FocaContextDb())
+                {
+                    Project p = context.Projects.First(x => x.Id == idProject);
+
+                    if (p != null)
+                    {
+                        context.Projects.Remove(p);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

@@ -51,12 +51,13 @@ namespace FOCA
             this.txtProjectName = new System.Windows.Forms.TextBox();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.btnCreate = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.fbdMain = new System.Windows.Forms.FolderBrowserDialog();
-            this.errorPorject = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProject = new System.Windows.Forms.ErrorProvider(this.components);
             this.openFileDialogImport = new System.Windows.Forms.OpenFileDialog();
             this.panelCenter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picFOCA)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorPorject)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProject)).BeginInit();
             this.SuspendLayout();
             // 
             // panelCenter
@@ -82,6 +83,7 @@ namespace FOCA
             this.panelCenter.Controls.Add(this.txtProjectName);
             this.panelCenter.Controls.Add(this.txtNotes);
             this.panelCenter.Controls.Add(this.btnCreate);
+            this.panelCenter.Controls.Add(this.btnDelete);
             this.panelCenter.Location = new System.Drawing.Point(4, 0);
             this.panelCenter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelCenter.Name = "panelCenter";
@@ -322,6 +324,21 @@ namespace FOCA
             this.btnCreate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+            //
+            // btnDelete
+            //
+            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
+            this.btnDelete.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnDelete.Location = new System.Drawing.Point(600, 531);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(136, 40);
+            this.btnDelete.TabIndex = 11;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // fbdMain
             // 
@@ -329,9 +346,9 @@ namespace FOCA
             // 
             // errorPorject
             // 
-            this.errorPorject.BlinkRate = 0;
-            this.errorPorject.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorPorject.ContainerControl = this;
+            this.errorProject.BlinkRate = 0;
+            this.errorProject.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProject.ContainerControl = this;
             // 
             // openFileDialogImport
             // 
@@ -349,7 +366,7 @@ namespace FOCA
             this.panelCenter.ResumeLayout(false);
             this.panelCenter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picFOCA)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorPorject)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProject)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -363,6 +380,7 @@ namespace FOCA
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnCreate;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSelectDirectory;
         private System.Windows.Forms.Label lblDocumentFolder;
         private System.Windows.Forms.TextBox txtFolderDocuments;
@@ -376,7 +394,7 @@ namespace FOCA
         private System.Windows.Forms.DateTimePicker txtDate;
         private System.Windows.Forms.ComboBox cmbProject;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ErrorProvider errorPorject;
+        private System.Windows.Forms.ErrorProvider errorProject;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.OpenFileDialog openFileDialogImport;

@@ -292,5 +292,30 @@ namespace FOCA.Core
         }
 
         #endregion
+
+        #region deleting projects
+        public void DeleteProject()
+        {
+            if (Program.data.Project == null)
+            {
+                MessageBox.Show(mainForm, "No project to delete", mainForm.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                Thread t = new Thread(new ThreadStart(DeleteProjectThread));
+                t.IsBackground = true;
+                t.Start();
+            }
+        }
+
+        public void DeleteProjectThread()
+        {
+            var idProject = Program.data.Project.Id;
+
+            new ProjectController().DeleteProjectById(idProject);
+            Program.FormMainInstance.LoadProjectGui(true);
+        }
+        #endregion
     }
 }

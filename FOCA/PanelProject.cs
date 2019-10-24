@@ -149,6 +149,20 @@ namespace FOCA
             }
         }
 
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (ValidateControls())
+                return;
+
+            if (MessageBox.Show("Do you really want to delete this project?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Program.FormMainInstance.ProjectManager.DeleteProject();
+
+                LoadProject();
+
+            }
+        }
+
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             var fallo = !CheckDownloadDirectory();
@@ -283,25 +297,25 @@ namespace FOCA
         private bool ValidateControls()
         {
             var result = false;
-            errorPorject.Clear();
+            errorProject.Clear();
             if (string.IsNullOrEmpty(txtProjectName.Text))
             {
-                errorPorject.SetError(txtProjectName, "Value is required."); result = true;
+                errorProject.SetError(txtProjectName, "Value is required."); result = true;
             }
 
             if (string.IsNullOrEmpty(txtDomainWebsite.Text))
             {
-                errorPorject.SetError(txtDomainWebsite, "Value is required."); result = true;
+                errorProject.SetError(txtDomainWebsite, "Value is required."); result = true;
             }
 
             if (string.IsNullOrEmpty(txtFolderDocuments.Text))
             {
-                errorPorject.SetError(txtFolderDocuments, "Value is required."); result = true;
+                errorProject.SetError(txtFolderDocuments, "Value is required."); result = true;
             }
 
             if (string.IsNullOrEmpty(txtDate.Value.ToString()))
             {
-                errorPorject.SetError(txtDate, "Value is required."); result = true;
+                errorProject.SetError(txtDate, "Value is required."); result = true;
             }
 
             return result;
