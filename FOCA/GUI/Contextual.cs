@@ -177,10 +177,105 @@ namespace FOCA.GUI
 #endif
         }
 
+        // quak: export users + their referencing documents as csv
+        public static void ShowMetadataUserMenu(TreeNode tn, Control sourceControl)
+        {
+            var tsiExportUsersCSV = new ToolStripMenuItem("Export users &CSV") { Image = Resources.extractMetadata };
+            
+            tsiExportUsersCSV.Click += delegate
+            {
+                if (Program.data == null)
+                {
+                    MessageBox.Show("No data", "No data", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                var sfd = new SaveFileDialog { Filter = "CSV files (*csv)|*.csv" };
+
+                if (sfd.ShowDialog() != DialogResult.OK) return;
+                var sb = new StringBuilder();
+
+                sb.AppendLine("Username, document");
+
+                // we could possibly pull from the user treenode and query program.data.computer.users, but
+                // maybe it's better / ok to just iterate from computer instead
+
+                var filesItems = Program.data.files.Items;
+
+                var listMetadata = (from item in filesItems where item.Metadata != null select item.Metadata).ToList();
+
+                var usersValue = (from item in listMetadata where item.FoundUsers.Items.Count != 0 select item.FoundUsers.Items);
+
+                Func<FilesItem, bool> searchPredicate = null;
+
+                foreach (ThreadSafeList<UserItem> userList in usersValue)
+                {
+                    foreach (UserItem user in userList)
+                    {
+                        
+                        searchPredicate = p => p.Metadata?.FoundUsers?.Items.Any(q => String.Equals(q.Name, user.Name, StringComparison.OrdinalIgnoreCase)) ?? false;
+
+                        string[] foundElements = Program.data.files.Items.Where(searchPredicate).Select(p => p.Path).ToArray();
+
+                        foreach (string found in foundElements)
+                        {
+                            //sb.AppendLine(found + ", " + user.Name);
+                            sb.AppendFormat("{0},\"{1}\"{2}", found, user.Name, Environment.NewLine);
+                        }
+                        //sb.AppendLine(user.Name + "," + user.IsComputerUser);
+                    }
+                }
+
+                /*foreach (
+                    TreeNode tnn in
+                        Program.FormMainInstance.TreeView.Nodes[UpdateGUI.TreeViewKeys.KProject.ToString()]
+                            .Nodes[UpdateGUI.TreeViewKeys.KMetadata.ToString()].Nodes["Metadata Summary"].Nodes["Users"].Nodes)
+                {
+                    sb.AppendLine(tnn.Text);
+                }
+
+
+                /*
+                List<ComputersItem> lst = new List<ComputersItem>(Program.data.computers.Items);
+                foreach (ComputersItem computer in lst)
+                {
+                    if (computer.type == ComputersItem.Tipo.ClientPC)
+                    {
+                        string usersString = "";
+                        foreach (UserItem user in computer.Users.Items)
+                        {
+                            usersString += user.Name + ":";
+                        }
+
+
+                        var documents = computer.SourceDocuments;
+
+                        foreach (string document in documents)
+                        {
+                            sb.AppendLine(computer.name + "," + usersString + "," + document);
+                        }
+                    }
+                    else
+                    {
+                        // if server don't do anything
+                    }
+
+                }*/
+                
+                using (var sw = File.CreateText(sfd.FileName))
+                {
+                    sw.WriteLine(sb.ToString());
+                }
+            };
+
+            Program.FormMainInstance.contextMenu.Items.Add(tsiExportUsersCSV);
+        }
+
         public static void ShowNetworkClientsMenu(TreeNode tn, Control sourceControl)
         {
             var tsiExportClients = new ToolStripMenuItem("&Export clients") { Image = Resources.exportDomain };
             var tsiAddClients = new ToolStripMenuItem("&Add client") { Image = Resources.add1 };
+            var tsiExportClientsCSV = new ToolStripMenuItem("Export clients &CSV") { Image = Resources.extractMetadata };
 
             tsiExportClients.Click += delegate
             {
@@ -209,7 +304,56 @@ namespace FOCA.GUI
                 fAddClient.ShowDialog();
             };
 
+            tsiExportClientsCSV.Click += delegate
+            {
+                if (Program.data == null)
+                {
+                    MessageBox.Show("No data", "No data", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                var sfd = new SaveFileDialog { Filter = "CSV files (*csv)|*.csv" };
+
+                if (sfd.ShowDialog() != DialogResult.OK) return;
+                var sb = new StringBuilder();
+
+                sb.AppendLine("Clients, localname, document");
+
+                List<ComputersItem> lst = new List<ComputersItem>(Program.data.computers.Items);
+                sb.AppendLine(Program.data.computers.Items.Count + "");
+                foreach (ComputersItem computer in lst)
+                {
+                    if (computer.type == ComputersItem.Tipo.ClientPC)
+                    {
+                        string usersString = "";
+                        foreach (UserItem user in computer.Users.Items)
+                        {
+                            usersString += user.Name + ":";
+                        }
+
+
+                        var documents = computer.SourceDocuments;
+
+                        foreach (string document in documents)
+                        {
+                            sb.AppendLine(computer.name + "," + usersString + "," + document);
+                        }
+                    }
+                    else
+                    {
+                        // if server don't do anything
+                    }
+                    
+                }
+
+                using (var sw = File.CreateText(sfd.FileName))
+                {
+                    sw.WriteLine(sb.ToString());
+                }
+            };
+
             Program.FormMainInstance.contextMenu.Items.Add(tsiExportClients);
+            Program.FormMainInstance.contextMenu.Items.Add(tsiExportClientsCSV);
             Program.FormMainInstance.contextMenu.Items.Add(new ToolStripSeparator());
             Program.FormMainInstance.contextMenu.Items.Add(tsiAddClients);
 #if PLUGINS

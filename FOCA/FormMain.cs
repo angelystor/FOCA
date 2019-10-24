@@ -3028,6 +3028,12 @@ namespace FOCA
                     Contextual.ShowNetworkMenu(tn, sourceControl);
                     return;
                 }
+                // quak: Link contextual menu to users, hard coding as users cos there's no easy way to reference this node atm
+                if (tn.Name == "Users")
+                {
+                    Contextual.ShowMetadataUserMenu(tn, sourceControl);
+                    return;
+                }
             }
 
             if (tnCat == null)
