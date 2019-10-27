@@ -43,6 +43,9 @@ namespace FOCA.Searcher
                     OnSearcherLinkFoundEvent(new EventsThreads.CollectionFound<Uri>(pageResults));
                 }
                 currentPage++;
+
+                SleepAfterEachPage(pageResults != null && pageResults.Count > 0 && currentPage < MAX_PAGES, searchTerms);
+
                 cancelToken.ThrowIfCancellationRequested();
             } while (pageResults != null && pageResults.Count > 0 && currentPage < MAX_PAGES);
             return totalResults;

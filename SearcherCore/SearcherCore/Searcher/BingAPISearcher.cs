@@ -38,6 +38,8 @@ namespace FOCA.Searcher
 
                     if (results.Count > 0)
                         OnSearcherLinkFoundEvent(new EventsThreads.CollectionFound<Uri>(results));
+
+                    SleepAfterEachPage(moreResults, searchString);
                 }
                 catch (OperationCanceledException)
                 {

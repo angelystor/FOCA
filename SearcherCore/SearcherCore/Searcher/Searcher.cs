@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FOCA.Searcher
 {
@@ -74,6 +75,9 @@ namespace FOCA.Searcher
                 foreach (TInput searchValue in customSearchValues)
                 {
                     totalCount += this.Search(searchValue, this.CancelToken);
+
+                    System.Threading.Thread.Sleep(2000);
+
                     this.CancelToken.ThrowIfCancellationRequested();
                 }
                 return totalCount;

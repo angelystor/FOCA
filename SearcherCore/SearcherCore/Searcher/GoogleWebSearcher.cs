@@ -148,14 +148,17 @@ namespace FOCA.Searcher
             return lstCurrentResults.Count;
         }
 
-        private int GetGoogleAllLinks(string SearchString, CancellationToken cancelToken)
+        private int GetGoogleAllLinks(string searchString, CancellationToken cancelToken)
         {
             int totalResults = 0, currentPage = 0;
             bool moreResults;
             do
             {
-                totalResults += GetGoogleResults(SearchString, MaxResultPerPage, currentPage * MaxResultPerPage, cancelToken, out moreResults);
+                totalResults += GetGoogleResults(searchString, MaxResultPerPage, currentPage * MaxResultPerPage, cancelToken, out moreResults);
                 currentPage++;
+
+                SleepAfterEachPage(moreResults, searchString);
+
                 CancelToken.ThrowIfCancellationRequested();
             } while (moreResults);
             return totalResults;

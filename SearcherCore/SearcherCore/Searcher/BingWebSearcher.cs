@@ -103,6 +103,9 @@ namespace FOCA.Searcher
             {
                 totalResults += GetBingResults(searchString, MaxResultPerPage, currentPage * MaxResultPerPage, cancelToken, out moreResults);
                 currentPage++;
+
+                SleepAfterEachPage(moreResults, searchString);
+
                 cancelToken.ThrowIfCancellationRequested();
             }
             while (moreResults && currentPage * MaxResultPerPage + MaxResultPerPage <= MaxResults);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FOCA.Threads;
 
 namespace FOCA.Searcher
 {
@@ -36,6 +37,16 @@ namespace FOCA.Searcher
                 searchValues.Add($"site:{site}");
             }
             return this.CustomSearch(cancelToken, searchValues.ToArray());
+        }
+
+        protected void SleepAfterEachPage(bool moreResults, string searchString)
+        {
+            if (moreResults)
+            {
+                // sleep
+                OnSearcherLogEvent(new EventsThreads.ThreadStringEventArgs($"[{Name}] Searching q={searchString}, sleeping"));
+                System.Threading.Thread.Sleep(1000);
+            }
         }
     }
 }

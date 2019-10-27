@@ -49,6 +49,9 @@ namespace FOCA.Searcher
             {
                 totalResults += GetGoogleResults(searchString, cancelToken, out moreResults);
                 cancelToken.ThrowIfCancellationRequested();
+
+                SleepAfterEachPage(moreResults, searchString);
+
             } while (moreResults);
             return totalResults;
         }
