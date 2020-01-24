@@ -6,11 +6,11 @@ using System;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QUAKA (Open Source)")]
+[assembly: AssemblyTitle("FOCA (Open Source)")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("elevenpaths")]
-[assembly: AssemblyProduct("QUAKA Open Source")]
+[assembly: AssemblyProduct("FOCA Open Source")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
