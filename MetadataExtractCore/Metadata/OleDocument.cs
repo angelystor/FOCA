@@ -120,6 +120,7 @@ namespace MetadataExtractCore.Extractors
                 this.ofh.NumberOfSectorsMSAT != 0 &&
                 this.ofh.FirstSecIDMSAT >= 0)
             {
+                //Must not use using clausule because it closes the main stream
                 BinaryReader br = new BinaryReader(this.stmDocument);
                 int nextSecID = this.ofh.FirstSecIDMSAT;
                 int j = 109;
@@ -156,19 +157,19 @@ namespace MetadataExtractCore.Extractors
             this.SSAT = new Int32[this.ofh.NumberOfSectorsSSAT * this.ofh.SizeOfSector];
 
             int p = 0;
-            int NextSecID = this.ofh.FirstSecIDSSAT;
+            int nextSecID = this.ofh.FirstSecIDSSAT;
             for (int i = 0; i < this.ofh.NumberOfSectorsSSAT; i++)
             {
-                if (NextSecID < 0)
+                if (nextSecID < 0)
                 {
                     throw new Exception("Error leyendo secuencia SSAT");
                 }
-                this.stmDocument.Seek(SectorOffset(NextSecID), SeekOrigin.Begin);
+                this.stmDocument.Seek(SectorOffset(nextSecID), SeekOrigin.Begin);
                 for (int j = 0; j < this.ofh.SizeOfSector / 4; j++, p++)
                 {
                     this.SSAT[p] = br.ReadInt32();
                 }
-                NextSecID = SAT[NextSecID];
+                nextSecID = SAT[nextSecID];
             }
         }
 

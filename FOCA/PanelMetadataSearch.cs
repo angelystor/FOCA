@@ -1174,6 +1174,15 @@ namespace FOCA
                         }
                     }));
                 }
+
+                if (originalMetadata.GPS != null)
+                {
+                    methodsToInvoke.Add(new Action(() =>
+                    {
+                        TreeNode gps = trnParentNode.Nodes.Add("GPS", "GPS", 122, 122);
+                        gps.Tag = originalMetadata;
+                    }));
+                }
             }
 
             Program.FormMainInstance.TreeView.Invoke(new MethodInvoker(() =>
@@ -1919,7 +1928,7 @@ namespace FOCA
                 ci1.SourceDocuments.Add(ci2.SourceDocuments[0]);
             }
             // join operating systems
-            if (ci2.os != OperatingSystem.OS.Unknown && ci2.os == OperatingSystem.OS.Unknown)
+            if (ci1.os != OperatingSystem.OS.Unknown && ci2.os == OperatingSystem.OS.Unknown)
             {
                 ci1.os = ci2.os;
             }
@@ -2538,7 +2547,7 @@ namespace FOCA
             else if (totalFiles > 0)
             {
                 Program.FormMainInstance.ReportProgress(this.downloadedFileCount, totalFiles);
-                Program.FormMainInstance.toolStripProgressBarDownload.Value = totalFiles == 0 ? 0 : this.downloadedFileCount * 100 / totalFiles;
+                Program.FormMainInstance.toolStripProgressBarDownload.Value = this.downloadedFileCount * 100 / totalFiles;
                 Program.FormMainInstance.toolStripStatusLabelLeft.Text = $"Downloading {this.downloadedFileCount}/{totalFiles}";
             }
         }

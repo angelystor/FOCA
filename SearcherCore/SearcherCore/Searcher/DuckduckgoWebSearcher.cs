@@ -1,4 +1,4 @@
-using FOCA.Threads;
+﻿using FOCA.Threads;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -124,7 +124,7 @@ namespace FOCA.Searcher
                 value = System.Web.HttpUtility.UrlEncode(value);
                 postParams += f.Attributes["name"].Value + "=" + value + "&";
             }
-            postParams.Remove(postParams.Length - 1);
+            postParams = postParams.Remove(postParams.Length - 1);
             return postParams;
         }
 
